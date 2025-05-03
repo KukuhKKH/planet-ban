@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"github.com/doug-martin/goqu/v9"
+	_ "github.com/doug-martin/goqu/v9/dialect/mysql"
 	"kukuhkkh.id/learn/bengkel/domain"
 )
 
@@ -24,7 +25,7 @@ func (r repository) FindAll(ctx context.Context) (customers []domain.Customer, e
 
 func NewRepository(con *sql.DB) domain.CustomerRepository {
 	return &repository{
-		db: goqu.New("default", con),
+		db: goqu.Dialect("mysql").DB(con),
 	}
 }
 
@@ -68,7 +69,11 @@ func (r repository) FindByPhone(ctx context.Context, phone string) (customer dom
 }
 
 func (r repository) Insert(ctx context.Context, customer *domain.Customer) error {
-	executor := r.db.Insert("customers").Rows(*customer).Executor()
+	executor := r.db.Insert("customers").Rows(goqu.Record{
+		"name":       customer.Name,
+		"phone":      customer.Phone,
+		"created_at": customer.CreadtAt,
+	}).Executor()
 
 	res, err := executor.ExecContext(ctx)
 	if err != nil {
