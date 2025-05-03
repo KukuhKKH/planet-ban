@@ -1,6 +1,9 @@
 package domain
 
-import "time"
+import (
+	"context"
+	"time"
+)
 
 type History struct {
 	ID        int       `db:"id"`
@@ -20,6 +23,11 @@ type HistoryDetail struct {
 }
 
 type HistoryRepository interface {
+	FindByID(ctx context.Context, id int) (History, error)
+	FindByNoRangka(ctx context.Context, no string) (History, error)
+	FindDetailByHistory(ctx context.Context, id int) ([]HistoryDetail, error)
+	Insert(ctx context.Context, history *History) error
+	InsertDetail(ctx context.Context, detail *HistoryDetail) error
 }
 
 type HistoryService interface {
