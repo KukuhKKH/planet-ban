@@ -21,4 +21,6 @@ type CustomerRepository interface {
 }
 
 type CustomerService interface {
+	ALl(ctx context.Context) ApiResponse
+	Save(ctx context.Context, customer CustomerData) ApiResponse
 }
