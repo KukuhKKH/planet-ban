@@ -12,6 +12,11 @@ type Customer struct {
 	CreadtAt time.Time `db:"created_at"`
 }
 
+type CustomerData struct {
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Phone string `json:"phone"`
+}
 type CustomerRepository interface {
 	FindAll(ctx context.Context) ([]Customer, error)
 	FindByID(ctx context.Context, id int) (Customer, error)
