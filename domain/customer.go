@@ -13,6 +13,7 @@ type Customer struct {
 }
 
 type CustomerRepository interface {
+	FindAll(ctx context.Context) ([]Customer, error)
 	FindByID(ctx context.Context, id int) (Customer, error)
 	FindByIds(ctx context.Context, ids []int) ([]Customer, error)
 	FindByPhone(ctx context.Context, phone string) (Customer, error)

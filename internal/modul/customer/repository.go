@@ -11,6 +11,17 @@ type repository struct {
 	db *goqu.Database
 }
 
+func (r repository) FindAll(ctx context.Context) (customers []domain.Customer, err error) {
+	dataset := r.db.From("customers").Order(goqu.I("name").Asc())
+
+	err = dataset.ScanStructsContext(ctx, &customers)
+	if err != nil {
+		return nil, err
+	}
+
+	return
+}
+
 func NewRepository(con *sql.DB) domain.CustomerRepository {
 	return &repository{
 		db: goqu.New("default", con),
