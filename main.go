@@ -7,6 +7,8 @@ import (
 	"kukuhkkh.id/learn/bengkel/internal/component"
 	"kukuhkkh.id/learn/bengkel/internal/config"
 	"kukuhkkh.id/learn/bengkel/internal/modul/customer"
+	"kukuhkkh.id/learn/bengkel/internal/modul/history"
+	"kukuhkkh.id/learn/bengkel/internal/modul/vehicle"
 )
 
 func main() {
@@ -14,7 +16,11 @@ func main() {
 	conn := component.GetDatabaseConnection(conf)
 
 	customerRepository := customer.NewRepository(conn)
+	vehicleRespository := vehicle.NewRepository(conn)
+	historyRespository := history.NewRepository(conn)
+
 	customerService := customer.NewService(customerRepository)
+	vehicleService := vehicle.NewService(vehicleRespository, historyRespository)
 
 	app := fiber.New()
 
@@ -24,6 +30,7 @@ func main() {
 	}))
 
 	customer.NewApi(app, customerService)
+	vehicle.NewApi(app, vehicleService)
 
 	_ = app.Listen(conf.Srv.Host + ":" + conf.Srv.Port)
 }
