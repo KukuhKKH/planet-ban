@@ -4,6 +4,7 @@ import (
 	"context"
 	"kukuhkkh.id/learn/bengkel/domain"
 	"log"
+	"strconv"
 	"time"
 )
 
@@ -31,7 +32,7 @@ func (s service) ALl(ctx context.Context) domain.ApiResponse {
 	var customerData []domain.CustomerData
 	for _, customer := range customers {
 		customerData = append(customerData, domain.CustomerData{
-			ID:    string(rune(customer.ID)),
+			ID:    strconv.Itoa(customer.ID),
 			Name:  customer.Name,
 			Phone: customer.Phone,
 		})
