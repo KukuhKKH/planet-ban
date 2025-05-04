@@ -72,7 +72,7 @@ func (r repository) Insert(ctx context.Context, customer *domain.Customer) error
 	executor := r.db.Insert("customers").Rows(goqu.Record{
 		"name":       customer.Name,
 		"phone":      customer.Phone,
-		"created_at": customer.CreadtAt,
+		"created_at": customer.CreatedAt,
 	}).Executor()
 
 	res, err := executor.ExecContext(ctx)

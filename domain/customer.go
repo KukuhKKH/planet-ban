@@ -6,10 +6,10 @@ import (
 )
 
 type Customer struct {
-	ID       int       `db:"id"`
-	Name     string    `db:"name"`
-	Phone    string    `db:"phone"`
-	CreadtAt time.Time `db:"created_at"`
+	ID        int       `db:"id"`
+	Name      string    `db:"name"`
+	Phone     string    `db:"phone"`
+	CreatedAt time.Time `db:"created_at"`
 }
 
 type CustomerData struct {

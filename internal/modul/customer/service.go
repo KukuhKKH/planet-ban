@@ -47,9 +47,9 @@ func (s service) ALl(ctx context.Context) domain.ApiResponse {
 
 func (s service) Save(ctx context.Context, customerData domain.CustomerData) domain.ApiResponse {
 	customer := domain.Customer{
-		Name:     customerData.Name,
-		Phone:    customerData.Phone,
-		CreadtAt: time.Now(),
+		Name:      customerData.Name,
+		Phone:     customerData.Phone,
+		CreatedAt: time.Now(),
 	}
 
 	err := s.customerRepository.Insert(ctx, &customer)
