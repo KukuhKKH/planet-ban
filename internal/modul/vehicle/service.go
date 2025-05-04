@@ -71,3 +71,50 @@ func (s Service) FindHistorical(ctx context.Context, vin string) domain.ApiRespo
 		Data:    result,
 	}
 }
+
+func (s Service) StoreHistorical(ctx context.Context, request domain.VehicleHistoricalRequest) domain.ApiResponse {
+	vehicle, err := s.vehicleRepository.FindByVIN(ctx, request.VIN)
+	if err != nil {
+		return domain.ApiResponse{
+			Code:    "500",
+			Message: err.Error(),
+		}
+	}
+
+	if vehicle == (domain.Vehicle{}) {
+		vehicle = domain.Vehicle{
+			VIN:   request.VIN,
+			Brand: request.Brand,
+		}
+
+		err = s.vehicleRepository.Insert(ctx, &vehicle)
+		if err != nil {
+			return domain.ApiResponse{
+				Code:    "500",
+				Message: err.Error(),
+			}
+		}
+	}
+
+	history := domain.HistoryDetail{
+		VehicleID:   vehicle.ID,
+		CustomerID:  request.CustomerID,
+		PIC:         request.PIC,
+		PlateNumber: request.PlateNumber,
+		Notes:       request.Notes,
+		Date:        time.Now(),
+	}
+
+	err = s.historyRepository.Insert(ctx, &history)
+	if err != nil {
+		return domain.ApiResponse{
+			Code:    "500",
+			Message: err.Error(),
+		}
+	}
+
+	return domain.ApiResponse{
+		Code:    "200",
+		Message: "Success",
+	}
+}
