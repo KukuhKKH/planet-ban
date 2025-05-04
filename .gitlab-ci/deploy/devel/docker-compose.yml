@@ -1,0 +1,21 @@
+services:
+  backend:
+    image: banglipai/golang/devel:latest
+    deploy:
+      restart_policy:
+        condition: on-failure
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 0s
+        order: start-first
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.golang.rule=HostRegexp(`planetban.local`) || HostRegexp(`{subdomain:[-_a-z]+}.planetban.local`)
+        - traefik.http.services.golang.loadbalancer.server.port=80
+    networks:
+      - traefik3-net
+
+networks:
+  traefik3-net:
+    external: true

@@ -1,0 +1,8 @@
+# Ignore everything
+*
+
+# Except this file
+!/domain
+!/internal
+!/go.mod
+!/main.go

@@ -1,0 +1,10 @@
+services:
+  backend:
+    image: banglipai/golang/base:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      cache_from:
+        - golang/base:latest
+      args:
+        - GOLANG_VERSION
